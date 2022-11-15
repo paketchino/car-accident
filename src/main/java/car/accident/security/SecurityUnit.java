@@ -1,4 +1,4 @@
-package car.accident.config.security;
+package car.accident.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
