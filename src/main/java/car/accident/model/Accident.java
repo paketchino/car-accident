@@ -42,4 +42,21 @@ public class Accident {
 
     private boolean status;
 
+    public Accident(int id,
+                    String name,
+                    Rule rule,
+                    Set<AccidentType> accidentType,
+                    String address,
+                    int numberCar,
+                    String description,
+                    boolean status) {
+        this.id = id;
+        this.name = name;
+        this.rule = rule;
+        this.accidentType = accidentType;
+        this.address = address;
+        this.numberCar = numberCar;
+        this.description = description;
+        this.status = status;
+    }
 }

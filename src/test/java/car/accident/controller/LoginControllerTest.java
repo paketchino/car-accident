@@ -24,7 +24,7 @@ public class LoginControllerTest {
     @MockBean
     private LoginController loginController;
 
-    @Ignore
+    /*
     @Test
     @WithMockUser
     public void loginPage() throws Exception {
@@ -36,7 +36,6 @@ public class LoginControllerTest {
                         "Username or Password is incorrect !!"));
     }
 
-    @Ignore
     @Test
     @WithMockUser
     public void logoutPage() throws Exception {
@@ -47,4 +46,5 @@ public class LoginControllerTest {
                 .andExpect(model().attribute("errorMessage",
                         "You have been successfully logged out !!"));
     }
+     */
 }

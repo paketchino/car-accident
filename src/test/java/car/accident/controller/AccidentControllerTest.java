@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
@@ -15,6 +16,8 @@ import org.springframework.util.MultiValueMap;
 import car.accident.CarAccidentApplication;
 import car.accident.model.Accident;
 import car.accident.service.AccidentServiceData;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -52,7 +55,7 @@ public class AccidentControllerTest {
                 .andExpect(view().name("accident/formUpdateAccident"));
     }
 
-    @Ignore
+    /**
     @Test
     @WithMockUser
     public void saveAccident() throws Exception {
@@ -64,7 +67,6 @@ public class AccidentControllerTest {
         map.add("address", "улица Пушкино");
         map.add("numberCar", "98831");
         map.add("description", "Столкновение двух машин");
-        map.add("photo", "null");
         map.add("status", "false");
         this.mockMvc.perform(post("/accidents/saveAccident").params(map))
                 .andDo(print())
@@ -80,8 +82,8 @@ public class AccidentControllerTest {
         Assert.assertEquals(accident.getAddress(), "улица Пушкино");
         Assert.assertEquals(accident.getNumberCar(), 98831);
         Assert.assertEquals(accident.getDescription(), "Столкновение двух машин");
-        Assert.assertNull(accident.getPhoto());
         Assert.assertEquals(accident.isStatus(), "false");
     }
+    */
 
 }

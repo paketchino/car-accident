@@ -40,7 +40,7 @@ public class RegControlTest {
                 .andExpect(view().name("reg"));
     }
 
-    @Ignore
+    /*
     @Test
     @WithMockUser
     public void setRegControl() throws Exception {
@@ -59,7 +59,6 @@ public class RegControlTest {
         Assert.assertEquals(user.getPassword(), "password");
     }
 
-    @Ignore
     @Test
     @WithMockUser
     public void shouldReturnRedirectJspWithDuplicateUser() throws Exception {
@@ -70,4 +69,5 @@ public class RegControlTest {
                 .andExpect(model().attribute("errorMessage",
                         "User with this username is already registered!!"));
     }
+     */
 }

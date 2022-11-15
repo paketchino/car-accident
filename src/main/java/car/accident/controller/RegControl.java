@@ -1,5 +1,6 @@
 package car.accident.controller;
 
+import car.accident.service.UserServiceData;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,8 @@ import car.accident.service.AuthorityServiceData;
 public class RegControl {
 
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
+
+    private final UserServiceData userServiceData;
     private final AuthorityServiceData authorityServiceData;
 
     @GetMapping("/reg")
@@ -36,7 +38,7 @@ public class RegControl {
         user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setAuthority(authorityServiceData.findByAuthority("ROLE_USER"));
-        userRepository.save(user);
+        userServiceData.save(user);
         return "redirect:/login";
     }
 }
