@@ -21,10 +21,6 @@ public class LoginControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private LoginController loginController;
-
-    /*
     @Test
     @WithMockUser
     public void loginPage() throws Exception {
@@ -46,5 +42,5 @@ public class LoginControllerTest {
                 .andExpect(model().attribute("errorMessage",
                         "You have been successfully logged out !!"));
     }
-     */
+
 }

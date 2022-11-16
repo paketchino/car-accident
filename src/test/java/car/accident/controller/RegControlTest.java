@@ -1,5 +1,7 @@
 package car.accident.controller;
 
+import car.accident.model.Authority;
+import car.accident.service.UserServiceData;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
@@ -29,7 +31,7 @@ public class RegControlTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private RegControl regControl;
+    private UserServiceData userServiceData;
 
     @Test
     @WithMockUser
@@ -40,25 +42,26 @@ public class RegControlTest {
                 .andExpect(view().name("reg"));
     }
 
-    /*
     @Test
     @WithMockUser
     public void setRegControl() throws Exception {
+        User user = new User(2, "user", "password", new Authority(1, "ROLE_ADMIN"), true);
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("id", "2");
         map.add("username", "user");
         map.add("password", "password");
+        map.add("authority_id", "1");
+        map.add("enabled", "true");
         this.mockMvc.perform(post("/reg")
                         .params(map))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"));
-        ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
-        verify(regControl).regSave(argument.capture());
-        User user = argument.capture();
+        verify(userServiceData).save(user);
         Assert.assertEquals(user.getUsername(), "user");
         Assert.assertEquals(user.getPassword(), "password");
     }
-
+    
     @Test
     @WithMockUser
     public void shouldReturnRedirectJspWithDuplicateUser() throws Exception {
@@ -69,5 +72,4 @@ public class RegControlTest {
                 .andExpect(model().attribute("errorMessage",
                         "User with this username is already registered!!"));
     }
-     */
 }

@@ -1,5 +1,6 @@
 package car.accident.controller;
 
+import car.accident.service.AuthorityServiceData;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/accidents")
 public class AccidentController {
     private final AccidentServiceData accidentService;
-    private final AuthorityRepository authorityRepository;
+    private final AuthorityServiceData authorityServiceData;
 
     private final RuleServiceData ruleServiceData;
 
@@ -68,7 +69,7 @@ public class AccidentController {
 
     @PostMapping("/saveAuthority")
     public String saveAuthority(@ModelAttribute Authority authority) {
-        authorityRepository.save(authority);
+        authorityServiceData.save(authority);
         return "redirect:/index";
     }
 }

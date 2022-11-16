@@ -20,4 +20,8 @@ public class AuthorityServiceData {
     public Optional<Authority> findById(int id) {
         return authorityRepository.findById(id);
     }
+
+    public void save(Authority authority) {
+        authorityRepository.save(authority);
+    }
 }
