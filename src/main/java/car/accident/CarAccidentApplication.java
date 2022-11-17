@@ -27,6 +27,7 @@ public class CarAccidentApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(CarAccidentApplication.class, args);
+        System.out.println("http://localhost:8080/login");
     }
 
 }

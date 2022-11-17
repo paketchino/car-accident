@@ -20,6 +20,9 @@ public class AccidentServiceData {
     public void create(Accident accident) {
         accidentRepository.save(accident);
     }
+    public void update(Accident accident) {
+        accidentRepository.save(accident);
+    }
 
     public List<Accident> getAll() {
         var result = new ArrayList<Accident>();

@@ -1,5 +1,6 @@
 package car.accident.controller;
 
+import car.accident.model.AccidentType;
 import car.accident.service.AuthorityServiceData;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import car.accident.service.AccidentTypeServiceData;
 import car.accident.service.RuleServiceData;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Set;
 
 @Controller
 @AllArgsConstructor
@@ -36,15 +38,21 @@ public class AccidentController {
    @PostMapping("/saveAccident")
     public String saveAccident(@ModelAttribute Accident accident,
                                @RequestParam("file") MultipartFile file,
+                               @RequestParam("typeId") int typeId,
+                               @RequestParam("ruleId") int ruleId,
                                HttpServletRequest req) throws Exception {
         String[] ids = req.getParameterValues("rIds");
         accident.setPhoto(file.getBytes());
+        accident.setRule(ruleServiceData.findById(ruleId).get());
+        accident.setAccidentType(accidentTypeServiceData.findById(typeId).get());
         accidentService.create(accident);
         return "redirect:/index";
     }
 
     @GetMapping("/formUpdateAccident")
     public String updateAccident(@RequestParam("id") int id, Model model) {
+        model.addAttribute("types", accidentTypeServiceData.getAll());
+        model.addAttribute("rules", ruleServiceData.findAll());
         model.addAttribute("accident", accidentService.findByIdAccident(id));
         return "accident/formUpdateAccident";
     }
@@ -52,14 +60,19 @@ public class AccidentController {
     @PostMapping("/changeAccident")
     public String changeAccident(@ModelAttribute Accident accident,
                                  @RequestParam("id") int id,
+                                 @RequestParam("typeId") int typeId,
+                                 @RequestParam("ruleId") int ruleId,
                                  @RequestParam("file") MultipartFile file,
                                  Model model,
                                  HttpServletRequest req)
             throws Exception {
-        accident.setPhoto(file.getBytes());
         String[] ids = req.getParameterValues("rIds");
+        accident.setPhoto(file.getBytes());
+        accident.setRule(ruleServiceData.findById(ruleId).get());
+        accident.setAccidentType(accidentTypeServiceData.findById(typeId).get());
         model.addAttribute("accident", accidentService.findByIdAccident(id));
-        return "redirect:/accident";
+        accidentService.update(accident);
+        return "redirect:/index";
     }
 
     @GetMapping("/createAuthority")

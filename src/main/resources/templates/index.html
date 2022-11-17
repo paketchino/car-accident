@@ -22,7 +22,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" th:href="@{/createAccident}"> Новый инцидент <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" th:href="@{/accidents/createAccident}"> Новый инцидент <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" th:href="@{/accidentsTypes/createAccidentType}"> Тип инцидента <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" th:href="@{/rules/createRule}"> Статья к созданию <span class="sr-only">(current)</span></a>
             </div>
         </div>
     </nav>
@@ -35,24 +37,32 @@
             <th scope="col">Описание</th>
             <th scope="col">Фото правонарушения</th>
             <th scope="col">Статус</th>
+            <th scope="col">Статья</th>
+            <th scope="col">Тип инцидента</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="accident: ${accidents}">
+        <tr th:each="accident : ${accidents}">
             <td th:text="${accident.address}"></td>
             <td th:text="${accident.numberCar}"></td>
-            <td th:text="${accident.desc}"> </td>
+            <td>
+                <a class="dark" th:href="@{|/accidents/formUpdateAccident?id=${accident.id}|}"
+                   th:text="${accident.description}">
+                </a>
+            </td>
             <td>
                 <img th:width="200" th:high="200" th:src="@{|/photoAds/${accident.id}|}">
             </td>
             <td>
                 <span th:if="${!accident.status}">
-                    <span class="badge badge-warning">Не продано</span>
+                    <span class="badge badge-warning">В процессе</span>
                 </span>
                 <span th:if="${accident.status}">
-                    <span class="badge badge-success">Продано</span>
+                    <span class="badge badge-success">Закрыто</span>
                 </span>
             </td>
+            <td th:text="${accident.rule.name}"></td>
+            <td th:text="${accident.accidentType.name}"></td>
         </tr>
         </tbody>
     </table>

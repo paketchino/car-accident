@@ -25,12 +25,8 @@ public class Accident {
     @ManyToOne
     private Rule rule;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(name = "accidents_accident_types", joinColumns = {
-            @JoinColumn(name = "accident_id", nullable = false, updatable = false)},
-    inverseJoinColumns = {
-            @JoinColumn(name = "accidentType_id", nullable = false, updatable = false)})
-    private Set<AccidentType> accidentType;
+    @ManyToOne
+    private AccidentType accidentType;
 
     private String address;
 
@@ -42,21 +38,4 @@ public class Accident {
 
     private boolean status;
 
-    public Accident(int id,
-                    String name,
-                    Rule rule,
-                    Set<AccidentType> accidentType,
-                    String address,
-                    int numberCar,
-                    String description,
-                    boolean status) {
-        this.id = id;
-        this.name = name;
-        this.rule = rule;
-        this.accidentType = accidentType;
-        this.address = address;
-        this.numberCar = numberCar;
-        this.description = description;
-        this.status = status;
-    }
 }
