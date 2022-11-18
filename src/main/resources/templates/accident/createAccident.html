@@ -31,7 +31,8 @@
                 Новый инцидент
             </div>
             <div class="card-body">
-                <form th:action="@{/accidents/saveAccident}" method="POST" enctype="multipart/form-data">
+                <form th:action="@{/accidents/saveAccident}" method="POST"
+                      enctype="multipart/form-data" th:object="${accident}">
                     <input type="hidden" name="id" value="0"/>
                     <div class="form-group">
                         <label for="name">Имя</label>
@@ -39,19 +40,19 @@
                     </div>
                     <div class="form-group">
                         <label for="type.id">Тип инцидента</label>
-                        <select class="form-control" id="type.id"  name="typeId">
+                        <select class="form-control" id="type.id" name="type.id">
                             <option th:each="type: ${types}"
-                                    th:text="${type.name}"
-                                    th:value="${type.id}">
+                                    th:value="${type.id}"
+                                    th:text="${type.name}">
                             </option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="rule.id">Статья</label>
-                        <select class="form-control" id="rule.id" name="ruleId">
+                        <select class="form-control" id="rule.id" name="rule.id">
                             <option th:each="rule: ${rules}"
-                                    th:text="${rule.name}"
-                                    th:value="${rule.id}">
+                                    th:value="${rule.id}"
+                                    th:text="${rule.name}">
                             </option>
                         </select>
                     </div>

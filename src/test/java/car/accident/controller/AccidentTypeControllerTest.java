@@ -40,7 +40,7 @@ public class AccidentTypeControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "admin477", password = "12345", roles = "USER")
     public void shouldReturnSaveAccidentType() throws Exception {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("id", "1");

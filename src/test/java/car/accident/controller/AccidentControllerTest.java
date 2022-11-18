@@ -70,12 +70,12 @@ public class AccidentControllerTest {
     @WithMockUser
     public void saveAccident() throws Exception {
         MockMultipartFile file = new MockMultipartFile(
-                "file", "hello.png", MediaType.IMAGE_PNG_VALUE, "Hello, Word".getBytes()
+                "file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, Word".getBytes()
         );
         Accident accident = new Accident(1, "Accident Name",
                 new Rule(1, "Rule 1"),
                 new AccidentType(1, "Accident Type 1"),
-                "Adress 1", 12123213, "Desc 1",
+                "Adress 1", "EA12123213", "Desc 1",
                 file.getBytes(), false);
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("accident", accident);

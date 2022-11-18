@@ -1,6 +1,7 @@
 package car.accident.controller;
 
 import car.accident.model.AccidentType;
+import car.accident.model.Rule;
 import car.accident.service.AuthorityServiceData;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -38,13 +39,16 @@ public class AccidentController {
    @PostMapping("/saveAccident")
     public String saveAccident(@ModelAttribute Accident accident,
                                @RequestParam("file") MultipartFile file,
-                               @RequestParam("typeId") int typeId,
-                               @RequestParam("ruleId") int ruleId,
+                               @RequestParam("type.id") int typeId,
+                               @RequestParam("rule.id") int ruleId,
                                HttpServletRequest req) throws Exception {
         String[] ids = req.getParameterValues("rIds");
         accident.setPhoto(file.getBytes());
-        accident.setRule(ruleServiceData.findById(ruleId).get());
-        accident.setAccidentType(accidentTypeServiceData.findById(typeId).get());
+        Rule rule = ruleServiceData.findById(ruleId).get();
+        AccidentType accidentType = accidentTypeServiceData.findById(typeId).get();
+        accident.setAccidentType(accidentType);
+        accident.setStatus(false);
+        accident.setRule(rule);
         accidentService.create(accident);
         return "redirect:/index";
     }
@@ -60,8 +64,8 @@ public class AccidentController {
     @PostMapping("/changeAccident")
     public String changeAccident(@ModelAttribute Accident accident,
                                  @RequestParam("id") int id,
-                                 @RequestParam("typeId") int typeId,
-                                 @RequestParam("ruleId") int ruleId,
+                                 @RequestParam("type.id") int typeId,
+                                 @RequestParam("rule.id") int ruleId,
                                  @RequestParam("file") MultipartFile file,
                                  Model model,
                                  HttpServletRequest req)

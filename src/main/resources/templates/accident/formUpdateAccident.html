@@ -37,21 +37,25 @@
                 <input type="hidden" name="id" th:field="*{id}"/>
                 <div class="form-group">
                     <label for="type.id">Тип инцидента</label>
-                    <select class="form-control" id="type.id"  name="typeId">
+                    <select class="form-control" id="type.id"  name="type.id">
                         <option th:each="type: ${types}"
-                                th:text="${type.name}"
-                                th:value="${type.id}">
+                                th:value="${type.id}"
+                                th:text="${type.name}">
                         </option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="rule.id">Статья</label>
-                    <select class="form-control" id="rule.id" name="ruleId">
+                    <select class="form-control" id="rule.id" name="rule.id">
                         <option th:each="rule: ${rules}"
-                                th:text="${rule.name}"
-                                th:value="${rule.id}">
+                                th:value="${rule.id}"
+                                th:text="${rule.name}">
                         </option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Имя</label>
+                    <input type="text" class="form-control" name="name" id="name">
                 </div>
                 <div class="form-group">
                     <label for="description">Описание</label>
@@ -63,7 +67,7 @@
                 </div>
                 <div class="form-group">
                     <label for="numberCar">Номер</label>
-                    <input type="number" class="form-control" name="numberCar" id="numberCar" th:field="*{numberCar}">
+                    <input type="text" class="form-control" name="numberCar" id="numberCar" th:field="*{numberCar}">
                 </div>
                 <div class="form-group">
                     <label for="file">Фотография</label>

@@ -43,9 +43,9 @@ public class RegControlTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "admin477", password = "12345", roles = "ADMIN")
     public void setRegControl() throws Exception {
-        User user = new User(2, "user", "password", new Authority(1, "ROLE_ADMIN"), true);
+        User user = new User(2, "user", "password", new Authority(1, "USER"), true);
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("id", "2");
         map.add("username", "user");

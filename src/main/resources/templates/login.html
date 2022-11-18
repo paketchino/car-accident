@@ -38,7 +38,7 @@
                 </div>
             </div>
         </nav>
-        <form th:action="@{/login}" method="post">
+        <form th:action="@{/login}" method="POST">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="username" name="username" required>

@@ -3,7 +3,6 @@ package car.accident.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Data
@@ -23,14 +22,16 @@ public class Accident {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name = "rule_id")
     private Rule rule;
 
     @ManyToOne
+    @JoinColumn(name = "accidentType_id")
     private AccidentType accidentType;
 
     private String address;
 
-    private int numberCar;
+    private String numberCar;
 
     private String description;
 
