@@ -17,8 +17,16 @@ public class AccidentServiceData {
     @Autowired
     private final AccidentRepository accidentRepository;
 
-    public void create(Accident accident) {
-        accidentRepository.save(accident);
+    @Autowired
+    private final AccidentTypeServiceData accidentTypeServiceData;
+
+    @Autowired
+    private final RuleServiceData ruleServiceData;
+
+    public void create(Accident accident, int idType, int idRule) {
+        accident.setAccidentType(accidentTypeServiceData.findById(idType).get());
+        accident.setRule(ruleServiceData.findById(idRule).get());
+        accidentRepository.save(accident);  
     }
     public void update(Accident accident) {
         accidentRepository.save(accident);

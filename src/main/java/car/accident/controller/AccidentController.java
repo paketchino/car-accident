@@ -44,12 +44,8 @@ public class AccidentController {
                                HttpServletRequest req) throws Exception {
         String[] ids = req.getParameterValues("rIds");
         accident.setPhoto(file.getBytes());
-        Rule rule = ruleServiceData.findById(ruleId).get();
-        AccidentType accidentType = accidentTypeServiceData.findById(typeId).get();
-        accident.setAccidentType(accidentType);
         accident.setStatus(false);
-        accident.setRule(rule);
-        accidentService.create(accident);
+        accidentService.create(accident, typeId, ruleId);
         return "redirect:/index";
     }
 
