@@ -98,9 +98,7 @@ public class AccidentControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/index"));
         ArgumentCaptor<Accident> argumentCaptor = ArgumentCaptor.forClass(Accident.class);
-        verify(accidentServiceData).create(argumentCaptor.capture(),
-                ruleCount,
-                accidentTypeCount);
+        verify(accidentServiceData).create(argumentCaptor.capture());
         Accident acc = argumentCaptor.getValue();
         Assert.assertThat(acc.getId(), is(accident.getId()));
     }

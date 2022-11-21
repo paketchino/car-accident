@@ -24,11 +24,11 @@ public class AccidentServiceData {
     @Autowired
     private final RuleServiceData ruleServiceData;
 
-    public void create(Accident accident, int ruleId, int typeId) {
+    public void create(Accident accident) {
         accident.setAccidentType(accidentTypeServiceData
-                .findById(typeId).get());
+                .findById(accident.getAccidentType().getId()).get());
         accident.setRule(ruleServiceData
-                .findById(ruleId).get());
+                .findById(accident.getRule().getId()).get());
         accidentRepository.save(accident);
     }
     public void update(Accident accident, int ruleId, int typeId) {

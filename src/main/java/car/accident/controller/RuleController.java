@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import car.accident.model.Rule;
 import car.accident.service.RuleServiceData;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @AllArgsConstructor
 @RequestMapping("/rules")
@@ -20,8 +22,10 @@ public class RuleController {
     }
 
     @GetMapping("/updateRule")
-    public String getFormUpdate(@RequestParam("id") int id, Model model) {
-        model.addAttribute("rule", ruleServiceData.findById(id));
+    public String getFormUpdate(Model model,
+                                HttpServletRequest req) {
+        String id = req.getParameter("id");
+        model.addAttribute("rule", ruleServiceData.findById(Integer.parseInt(id)));
         return "rule/updateRule";
     }
 
