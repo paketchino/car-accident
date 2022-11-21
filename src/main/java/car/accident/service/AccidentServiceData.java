@@ -2,6 +2,7 @@ package car.accident.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import car.accident.model.Accident;
 import car.accident.repository.AccidentRepository;
@@ -23,12 +24,18 @@ public class AccidentServiceData {
     @Autowired
     private final RuleServiceData ruleServiceData;
 
-    public void create(Accident accident, int idType, int idRule) {
-        accident.setAccidentType(accidentTypeServiceData.findById(idType).get());
-        accident.setRule(ruleServiceData.findById(idRule).get());
-        accidentRepository.save(accident);  
+    public void create(Accident accident, int ruleId, int typeId) {
+        accident.setAccidentType(accidentTypeServiceData
+                .findById(typeId).get());
+        accident.setRule(ruleServiceData
+                .findById(ruleId).get());
+        accidentRepository.save(accident);
     }
-    public void update(Accident accident) {
+    public void update(Accident accident, int ruleId, int typeId) {
+        accident.setAccidentType(accidentTypeServiceData
+                .findById(typeId).get());
+        accident.setRule(ruleServiceData
+                .findById(ruleId).get());
         accidentRepository.save(accident);
     }
 

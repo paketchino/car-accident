@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -47,6 +48,12 @@ public class AccidentControllerTest {
 
     @MockBean
     private AccidentServiceData accidentServiceData;
+
+    @MockBean
+    private RuleServiceData ruleServiceData;
+
+    @MockBean
+    private AccidentTypeServiceData accidentTypeServiceData;
 
     @Test
     @WithMockUser
@@ -72,9 +79,15 @@ public class AccidentControllerTest {
         MockMultipartFile file = new MockMultipartFile(
                 "file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, Word".getBytes()
         );
+        Rule rule = new Rule(1, "Rule 1");
+        int ruleCount = rule.getId();
+        AccidentType accidentType = new AccidentType(1, "Accident Type 1");
+        ruleServiceData.save(rule);
+        accidentTypeServiceData.create(accidentType);
+        int accidentTypeCount = accidentType.getId();
         Accident accident = new Accident(1, "Accident Name",
-                new Rule(1, "Rule 1"),
-                new AccidentType(1, "Accident Type 1"),
+                new Rule(2, "Rule 2"),
+                new AccidentType(2, "Type 2"),
                 "Adress 1", "EA12123213", "Desc 1",
                 file.getBytes(), false);
         Map<String, Object> body = new LinkedHashMap<>();
@@ -85,7 +98,9 @@ public class AccidentControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/index"));
         ArgumentCaptor<Accident> argumentCaptor = ArgumentCaptor.forClass(Accident.class);
-        verify(accidentServiceData).create(argumentCaptor.capture(), 1, 1);
+        verify(accidentServiceData).create(argumentCaptor.capture(),
+                ruleCount,
+                accidentTypeCount);
         Accident acc = argumentCaptor.getValue();
         Assert.assertThat(acc.getId(), is(accident.getId()));
     }

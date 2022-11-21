@@ -39,39 +39,41 @@ public class AccidentController {
    @PostMapping("/saveAccident")
     public String saveAccident(@ModelAttribute Accident accident,
                                @RequestParam("file") MultipartFile file,
-                               @RequestParam("type.id") int typeId,
-                               @RequestParam("rule.id") int ruleId,
                                HttpServletRequest req) throws Exception {
-        String[] ids = req.getParameterValues("rIds");
+        String ruleId = req.getParameter("rule.id");
+        String typeId = req.getParameter("type.id");
+        String[] rules = req.getParameterValues("rules");
+        String[] types = req.getParameterValues("types");
         accident.setPhoto(file.getBytes());
-        accident.setStatus(false);
-        accidentService.create(accident, typeId, ruleId);
+        accidentService.create(accident, Integer.parseInt(ruleId),
+                Integer.parseInt(typeId));
         return "redirect:/index";
     }
 
     @GetMapping("/formUpdateAccident")
-    public String updateAccident(@RequestParam("id") int id, Model model) {
+    public String updateAccident(Model model, HttpServletRequest req) {
+        String id = req.getParameter("id");
         model.addAttribute("types", accidentTypeServiceData.getAll());
         model.addAttribute("rules", ruleServiceData.findAll());
-        model.addAttribute("accident", accidentService.findByIdAccident(id));
+        model.addAttribute("accident", accidentService.findByIdAccident(Integer.parseInt(id)));
         return "accident/formUpdateAccident";
     }
 
     @PostMapping("/changeAccident")
     public String changeAccident(@ModelAttribute Accident accident,
-                                 @RequestParam("id") int id,
-                                 @RequestParam("type.id") int typeId,
-                                 @RequestParam("rule.id") int ruleId,
                                  @RequestParam("file") MultipartFile file,
                                  Model model,
                                  HttpServletRequest req)
             throws Exception {
         String[] ids = req.getParameterValues("rIds");
+        String id = req.getParameter("id");
+        String typeId = req.getParameter("type.id");
+        String ruleId = req.getParameter("rule.id");
         accident.setPhoto(file.getBytes());
-        accident.setRule(ruleServiceData.findById(ruleId).get());
-        accident.setAccidentType(accidentTypeServiceData.findById(typeId).get());
-        model.addAttribute("accident", accidentService.findByIdAccident(id));
-        accidentService.update(accident);
+        model.addAttribute("accident", accidentService.findByIdAccident(Integer.parseInt(id)));
+        accidentService.update(accident,
+                Integer.parseInt(ruleId),
+                Integer.parseInt(typeId));
         return "redirect:/index";
     }
 
