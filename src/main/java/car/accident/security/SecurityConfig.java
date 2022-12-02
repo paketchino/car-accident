@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         + "where u.username = ? and u.authority_id = a.id");
     }
 
-    @Bean
+    @Bean()
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -38,6 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
+                .antMatchers("/createRule", "/createAccidentType")
+                .hasAnyRole("ADMIN")
                 .antMatchers("/login", "/reg")
                 .permitAll()
                 .antMatchers("/**")

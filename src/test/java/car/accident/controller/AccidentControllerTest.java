@@ -6,7 +6,6 @@ import car.accident.service.AccidentTypeServiceData;
 import car.accident.service.AuthorityServiceData;
 import car.accident.service.RuleServiceData;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +16,13 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import car.accident.CarAccidentApplication;
 import car.accident.model.Accident;
 import car.accident.service.AccidentServiceData;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static org.hamcrest.core.Is.is;
-import static org.mockito.ArgumentMatchers.refEq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -80,11 +69,9 @@ public class AccidentControllerTest {
                 "file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, Word".getBytes()
         );
         Rule rule = new Rule(1, "Rule 1");
-        int ruleCount = rule.getId();
         AccidentType accidentType = new AccidentType(1, "Accident Type 1");
         ruleServiceData.save(rule);
         accidentTypeServiceData.create(accidentType);
-        int accidentTypeCount = accidentType.getId();
         Accident accident = new Accident(1, "Accident Name",
                 new Rule(2, "Rule 2"),
                 new AccidentType(2, "Type 2"),

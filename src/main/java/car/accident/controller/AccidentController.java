@@ -40,8 +40,6 @@ public class AccidentController {
     public String saveAccident(@ModelAttribute Accident accident,
                                @RequestParam("file") MultipartFile file,
                                HttpServletRequest req) throws Exception {
-        String[] rules = req.getParameterValues("rules");
-        String[] types = req.getParameterValues("types");
         accident.setPhoto(file.getBytes());
         accidentService.create(accident);
         return "redirect:/index";

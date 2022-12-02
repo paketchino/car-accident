@@ -3,7 +3,6 @@ package car.accident.service;
 import org.springframework.stereotype.Service;
 import car.accident.model.Authority;
 import car.accident.repository.AuthorityRepository;
-
 import java.util.Optional;
 
 @Service
