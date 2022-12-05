@@ -16,6 +16,8 @@ import car.accident.service.AccidentTypeServiceData;
 import car.accident.service.RuleServiceData;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.Option;
+import java.util.Optional;
 import java.util.Set;
 
 @Controller
@@ -30,7 +32,7 @@ public class AccidentController {
     private final AccidentTypeServiceData accidentTypeServiceData;
 
     @GetMapping("/createAccident")
-    public String addAccident(Model model) {
+    public String addAccident(Model model, HttpServletRequest req) {
         model.addAttribute("types", accidentTypeServiceData.getAll());
         model.addAttribute("rules", ruleServiceData.findAll());
         return "accident/createAccident";
