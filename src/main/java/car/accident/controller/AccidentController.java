@@ -43,6 +43,10 @@ public class AccidentController {
                                @RequestParam("file") MultipartFile file,
                                HttpServletRequest req) throws Exception {
         accident.setPhoto(file.getBytes());
+        String rule = req.getParameter("rule.id");
+        String type = req.getParameter("type.id");
+        accident.setRule(ruleServiceData.findById(Integer.parseInt(rule)).get());
+        accident.setAccidentType(accidentTypeServiceData.findById(Integer.parseInt(type)).get());
         accidentService.create(accident);
         return "redirect:/index";
     }
