@@ -41,4 +41,24 @@ public class RegControl {
         userServiceData.save(user);
         return "redirect:/login";
     }
+
+    @GetMapping("/regAdmin")
+    public String regAdminPage(@RequestParam(value = "error", required = false)
+                          String error, Model model) {
+        String errorMessage = null;
+        if (error != null) {
+            errorMessage = "User with this username is already registered!!";
+        }
+        model.addAttribute("errorMessage", errorMessage);
+        return "regAdmin";
+    }
+
+    @PostMapping("/regAdmin")
+    public String regSaveAdminRule(@ModelAttribute User user) {
+        user.setEnabled(true);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setAuthority(authorityServiceData.findByAuthority("ROLE_ADMIN"));
+        userServiceData.save(user);
+        return "redirect:/login";
+    }
 }

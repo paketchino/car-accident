@@ -10,15 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import car.accident.model.Accident;
 import car.accident.model.Authority;
-import car.accident.repository.AuthorityRepository;
 import car.accident.service.AccidentServiceData;
 import car.accident.service.AccidentTypeServiceData;
 import car.accident.service.RuleServiceData;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.html.Option;
 import java.util.Optional;
-import java.util.Set;
 
 @Controller
 @AllArgsConstructor
@@ -45,8 +42,10 @@ public class AccidentController {
         accident.setPhoto(file.getBytes());
         String rule = req.getParameter("rule.id");
         String type = req.getParameter("type.id");
-        accident.setRule(ruleServiceData.findById(Integer.parseInt(rule)).get());
-        accident.setAccidentType(accidentTypeServiceData.findById(Integer.parseInt(type)).get());
+        Optional<Rule> ruleOp = ruleServiceData.findById(Integer.parseInt(rule));
+        ruleOp.ifPresent(accident::setRule);
+        Optional<AccidentType> accidentTypeOp = accidentTypeServiceData.findById(Integer.parseInt(type));
+        accidentTypeOp.ifPresent(accident::setAccidentType);;
         accidentService.create(accident);
         return "redirect:/index";
     }
@@ -66,7 +65,6 @@ public class AccidentController {
                                  Model model,
                                  HttpServletRequest req)
             throws Exception {
-        String[] ids = req.getParameterValues("rIds");
         String id = req.getParameter("id");
         String typeId = req.getParameter("type.id");
         String ruleId = req.getParameter("rule.id");

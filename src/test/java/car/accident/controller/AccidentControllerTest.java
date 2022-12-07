@@ -19,6 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import car.accident.CarAccidentApplication;
 import car.accident.model.Accident;
 import car.accident.service.AccidentServiceData;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -71,17 +74,21 @@ public class AccidentControllerTest {
         Rule rule = new Rule(1, "Rule 1");
         AccidentType accidentType = new AccidentType(1, "Accident Type 1");
         ruleServiceData.save(rule);
-        accidentTypeServiceData.create(accidentType);
+        accidentTypeServiceData.save(accidentType);
         Accident accident = new Accident(1, "Accident Name",
-                new Rule(2, "Rule 2"),
-                new AccidentType(2, "Type 2"),
+                rule,
+                accidentType,
                 "Adress 1", "EA12123213", "Desc 1",
                 file.getBytes(), false);
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("accident", accident);
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("type.id", String.valueOf(accidentType.getId()));
+        params.add("rule.id", String.valueOf(rule.getId()));
         this.mockMvc.perform(multipart("/accidents/saveAccident")
                         .file(file)
-                        .flashAttrs(body))
+                        .flashAttrs(body)
+                        .params(params))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/index"));
         ArgumentCaptor<Accident> argumentCaptor = ArgumentCaptor.forClass(Accident.class);

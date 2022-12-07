@@ -50,7 +50,7 @@ public class AccidentTypeControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/index"));
         ArgumentCaptor<AccidentType> argument = ArgumentCaptor.forClass(AccidentType.class);
-        verify(accidentTypeServiceData).create(argument.capture());
+        verify(accidentTypeServiceData).save(argument.capture());
         AccidentType value = argument.getValue();
         Assert.assertEquals(value.getId(), 1);
         Assert.assertEquals(value.getName(), "Авария");

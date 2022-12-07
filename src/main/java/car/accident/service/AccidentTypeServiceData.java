@@ -17,7 +17,7 @@ public class AccidentTypeServiceData {
         this.accidentTypeRepository = accidentTypeRepository;
     }
 
-    public void create(AccidentType accidentType) {
+    public void save(AccidentType accidentType) {
         accidentTypeRepository.save(accidentType);
     }
 

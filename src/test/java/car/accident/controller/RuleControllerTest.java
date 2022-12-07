@@ -1,6 +1,8 @@
 package car.accident.controller;
 
 import car.accident.CarAccidentApplication;
+import car.accident.model.Authority;
+import car.accident.model.User;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -14,6 +16,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import car.accident.model.Rule;
 import car.accident.service.RuleServiceData;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -31,10 +36,26 @@ public class RuleControllerTest {
     @MockBean
     private RuleServiceData ruleServiceData;
 
+    @MockBean
+    private RegControl regControl;
+
     @Test
     @WithMockUser
     public void shouldReturnRuleCreateView() throws Exception {
-        this.mockMvc.perform(get("/rules/createRule"))
+        User user = new User(1,
+                "root2",
+                "password",
+                new Authority(1, "ADMIN"),
+                true);
+        regControl.regSave(user);
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", "125");
+        params.put("username", "root2");
+        params.put("password", "password");
+        params.put("authority.authority", "ROLE_ADMIN");
+        params.put("enabled", "true");
+        this.mockMvc.perform(get("/rules/createRule")
+                .flashAttrs(params))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("rule/createRule"));
@@ -72,7 +93,8 @@ public class RuleControllerTest {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("id", "1");
         map.add("name", "Статья 2");
-        this.mockMvc.perform(post("/rules/saveRule").params(map))
+        this.mockMvc.perform(post("/rules/saveRule")
+                        .params(map))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/index"));
