@@ -3,6 +3,7 @@ package car.accident.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Data
@@ -19,6 +20,8 @@ public class Accident {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotEmpty(message = "Не должно быть пустым")
+    @Column
     private String name;
 
     @ManyToOne
@@ -29,14 +32,19 @@ public class Accident {
     @JoinColumn(name = "accidentType_id")
     private AccidentType accidentType;
 
+    @Column(name = "address")
     private String address;
 
+    @Column(name = "numberCar")
     private String numberCar;
 
+    @Column(name = "description")
     private String description;
 
+    @Column(name = "photo")
     private byte[] photo;
 
+    @Column(name = "status")
     private boolean status;
 
 }

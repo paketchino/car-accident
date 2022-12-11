@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import car.accident.model.Authority;
 import car.accident.repository.AuthorityRepository;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
@@ -21,6 +21,7 @@ public class AuthorityServiceData {
         return authorityRepository.findById(id);
     }
 
+    @Transactional
     public void save(Authority authority) {
         authorityRepository.save(authority);
     }

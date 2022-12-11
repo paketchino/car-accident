@@ -1,4 +1,4 @@
-package car.accident.util;
+package car.accident.config.util;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

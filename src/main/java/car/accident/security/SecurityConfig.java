@@ -38,12 +38,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .antMatchers("/login", "/reg")
+                .antMatchers("/login", "/reg", "/regAdmin")
                 .permitAll()
-                .antMatchers("/rules/createRule", "/accidentsTypes/createAccidentType", "/regAdmin")
+                .antMatchers("/rules/createRule", "/rules/updateRule",
+                        "/accidentsTypes/updateAccidentType",
+                        "/accidentsTypes/createAccidentType",
+                        "/regAdmin", "/rules/formRules",
+                        "/accidentsTypes/formAccidentsTypes",
+                        "/regSupervisor", "/adminView")
                 .hasAnyRole("ADMIN")
+                .antMatchers("/supervisors/getCompleteAccident")
+                .hasAnyRole("ADMIN", "SUPERVISOR")
                 .antMatchers("/**")
-                .hasAnyRole("USER", "ADMIN")
+                .hasAnyRole("USER", "ADMIN", "SUPERVISOR")
                 .and()
                 .formLogin()
                 .loginPage("/login")

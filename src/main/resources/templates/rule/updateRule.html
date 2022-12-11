@@ -22,7 +22,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" th:href="@{/createAccident}"> Новый инцидент <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" th:href="@{/accidentsTypes/createAccidentType}"> Тип инцидента <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" th:href="@{/accidentsTypes/formAccidentsTypes}"> Список типов <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" th:href="@{/rules/createRule}"> Статья к созданию <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" th:href="@{/rules/formRules}"> Список статей <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" th:href="@{/accidents/createAccident}"> Новый инцидент <span class="sr-only">(current)</span></a>
             </div>
         </div>
     </nav>
@@ -32,7 +36,8 @@
                 Редактирование статьи
             </div>
             <div class="card-body">
-                <form th:action="@{/rules/saveRule/}" method="POST" th:object="${rule}">
+                <form th:action="@{/rules/changeRule/}"
+                      method="POST" th:object="${rule}">
                     <input type="hidden" name="id" th:field="*{id}"/>
                     <div class="form-group">
                         <label for="name">Новое название статьи</label>

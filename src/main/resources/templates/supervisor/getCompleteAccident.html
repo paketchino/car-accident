@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,31 +16,28 @@
 <body>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" th:href="@{/index}"><p class="text-uppercase">Автомобильные инциденты</p> </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="navbar-brand" th:href="@{/index}"><p class="text-uppercase">Автомобильные инциденты</p> </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link active" th:href="@{/createAccident}">Добавить Инцидент</a>
-                </div>
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link active" th:href="@{/createAccidentType}">Добавить Тип Инцидента</a>
-                </div>
+                <a class="nav-item nav-link active" th:href="@{/accidents/createAccident}"> Новый инцидент <span class="sr-only">(current)</span></a>
             </div>
         </div>
     </nav>
     <div class="row pt-3">
         <div class="card" style="width: 100%">
+            <div class="card-header">
+                Редактирование инцидента
+            </div>
             <div class="card-body">
-                <form th:action="@{/saveAuthority}" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id" value="0"/>
-                    <div class="form-group">
-                        <label for="name">Имя</label>
-                        <input type="text" class="form-control" name="name" id="name">
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
+                <form th:action="@{/supervisors/postCompleteItem}" method="POST"
+                      enctype="multipart/form-data" th:object="${accident}">
+                    <input type="hidden" name="id" th:field="*{id}"/>
+                    <a th:href="@{|confirmationUpdate|}">
+                        <button type="submit" class="btn btn-primary">Подтвердить</button>
+                    </a>
                 </form>
             </div>
         </div>

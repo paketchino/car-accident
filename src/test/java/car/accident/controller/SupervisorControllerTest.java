@@ -1,7 +1,10 @@
 package car.accident.controller;
 
+import car.accident.CarAccidentApplication;
+import car.accident.model.Accident;
 import car.accident.model.AccidentType;
 import car.accident.model.Rule;
+import car.accident.service.AccidentServiceData;
 import car.accident.service.AccidentTypeServiceData;
 import car.accident.service.RuleServiceData;
 import org.junit.Assert;
@@ -15,12 +18,10 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import car.accident.CarAccidentApplication;
-import car.accident.model.Accident;
-import car.accident.service.AccidentServiceData;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -32,10 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = CarAccidentApplication.class)
 @AutoConfigureMockMvc
-public class AccidentControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+public class SupervisorControllerTest {
 
     @MockBean
     private AccidentServiceData accidentServiceData;
@@ -46,27 +44,21 @@ public class AccidentControllerTest {
     @MockBean
     private AccidentTypeServiceData accidentTypeServiceData;
 
+    @Autowired
+    private MockMvc mockMvc;
+
     @Test
-    @WithMockUser
-    public void shouldReturnDefaultMessageRuleGet() throws Exception {
-        this.mockMvc.perform(get("/accidents/createAccident"))
+    @WithMockUser(value = "SUPERVISOR", username = "SUPERVISOR", password = "12345", roles = "SUPERVISOR")
+    public void updateAccStatusTrue() throws Exception {
+        this.mockMvc.perform(get("/supervisors/getCompleteAccident?id=1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("accident/createAccident"));
+                .andExpect(view().name("supervisor/getCompleteAccident"));
     }
 
     @Test
-    @WithMockUser
-    public void shouldReturnDefaultMessageAccidentTypeGet() throws Exception {
-        this.mockMvc.perform(get("/accidents/formUpdateAccident?id=1"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(view().name("accident/formUpdateAccident"));
-    }
-
-    @Test
-    @WithMockUser
-    public void saveAccident() throws Exception {
+    @WithMockUser(value = "SUPERVISOR", username = "SUPERVISOR", password = "12345", roles = "SUPERVISOR")
+    public void postCompleteAccStatusTrue() throws Exception {
         MockMultipartFile file = new MockMultipartFile(
                 "file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, Word".getBytes()
         );
@@ -84,15 +76,17 @@ public class AccidentControllerTest {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("type.id", String.valueOf(accidentType.getId()));
         params.add("rule.id", String.valueOf(rule.getId()));
-        this.mockMvc.perform(multipart("/accidents/saveAccident")
+        this.mockMvc.perform(multipart("/supervisors/postCompleteItem")
                         .file(file)
                         .flashAttrs(body)
                         .params(params))
+                .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/index"));
-        ArgumentCaptor<Accident> argumentCaptor = ArgumentCaptor.forClass(Accident.class);
-        verify(accidentServiceData).create(argumentCaptor.capture());
-        Accident acc = argumentCaptor.getValue();
-        Assert.assertThat(acc.getId(), is(accident.getId()));
+        ArgumentCaptor<Accident> argumentCaptorStatus = ArgumentCaptor.forClass(Accident.class);
+        verify(accidentServiceData).completeAcc(argumentCaptorStatus.capture());
+        Accident accStatus = argumentCaptorStatus.getValue();
+        Assert.assertTrue(accStatus.isStatus());
     }
+
 }

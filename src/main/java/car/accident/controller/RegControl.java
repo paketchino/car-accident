@@ -61,4 +61,24 @@ public class RegControl {
         userServiceData.save(user);
         return "redirect:/login";
     }
+
+    @GetMapping("/regSupervisor")
+    public String regPageSupervisor(@RequestParam(value = "error", required = false)
+                          String error, Model model) {
+        String errorMessage = null;
+        if (error != null) {
+            errorMessage = "User with this username is already registered!!";
+        }
+        model.addAttribute("errorMessage", errorMessage);
+        return "regSupervisor";
+    }
+
+    @PostMapping("/regSupervisor")
+    public String formSaveSupervisor(@ModelAttribute User user) {
+        user.setEnabled(true);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setAuthority(authorityServiceData.findByAuthority("ROLE_SUPERVISOR"));
+        userServiceData.save(user);
+        return "redirect:/login";
+    }
 }

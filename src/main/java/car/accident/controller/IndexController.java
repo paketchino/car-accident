@@ -42,4 +42,11 @@ public class IndexController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(new ByteArrayResource(accident.get().getPhoto()));
     }
+
+    @GetMapping("/adminView")
+    public String getAdminView(Model model) {
+        model.addAttribute("user", SecurityContextHolder.
+                getContext().getAuthentication().getPrincipal());
+        return "/adminView";
+    }
 }

@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import java.util.Collection;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Data
@@ -22,9 +20,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "username")
+    @NotEmpty(message = "Не должно быть пустым")
+    @Size(min = 6, max = 70, message = "Имя автора должно быть от 6 до 70")
+    @Column(name = "username", unique = true)
     private String username;
 
+    @NotEmpty(message = "Не должно быть пустым")
     @Column(name = "password")
     private String password;
 

@@ -1,8 +1,6 @@
 package car.accident.controller;
 
 import car.accident.CarAccidentApplication;
-import car.accident.model.Authority;
-import car.accident.model.User;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -16,9 +14,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import car.accident.model.Rule;
 import car.accident.service.RuleServiceData;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,42 +31,29 @@ public class RuleControllerTest {
     @MockBean
     private RuleServiceData ruleServiceData;
 
-    @MockBean
-    private RegControl regControl;
-
     @Test
-    @WithMockUser
+    @WithMockUser(username = "admin", password = "12345", roles = "ADMIN")
     public void shouldReturnRuleCreateView() throws Exception {
-        User user = new User(1,
-                "root2",
-                "password",
-                new Authority(1, "ADMIN"),
-                true);
-        regControl.regSave(user);
-        Map<String, Object> params = new HashMap<>();
-        params.put("id", "125");
-        params.put("username", "root2");
-        params.put("password", "password");
-        params.put("authority.authority", "ROLE_ADMIN");
-        params.put("enabled", "true");
-        this.mockMvc.perform(get("/rules/createRule")
-                .flashAttrs(params))
+        this.mockMvc.perform(get("/rules/createRule"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("rule/createRule"));
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "admin", password = "12345", roles = "ADMIN")
     public void shouldReturnRuleEditView() throws Exception {
-        this.mockMvc.perform(get("/rules/updateRule?id=1"))
+        MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
+        param.add("id", "1");
+        this.mockMvc.perform(get("/rules/updateRule")
+                        .params(param))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("rule/updateRule"));
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "admin", password = "12345", roles = "ADMIN")
     public void shouldReturnCreateRuleView() throws Exception {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("id", "1");
@@ -88,12 +70,12 @@ public class RuleControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "admin", password = "12345", roles = "ADMIN")
     public void update() throws Exception {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("id", "1");
         map.add("name", "Статья 2");
-        this.mockMvc.perform(post("/rules/saveRule")
+        this.mockMvc.perform(post("/rules/changeRule?id=1")
                         .params(map))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())

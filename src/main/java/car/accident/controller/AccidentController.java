@@ -55,7 +55,8 @@ public class AccidentController {
         String id = req.getParameter("id");
         model.addAttribute("types", accidentTypeServiceData.getAll());
         model.addAttribute("rules", ruleServiceData.findAll());
-        model.addAttribute("accident", accidentService.findByIdAccident(Integer.parseInt(id)));
+        model.addAttribute("accident",
+                accidentService.findByIdAccident(Integer.parseInt(id)));
         return "accident/formUpdateAccident";
     }
 
@@ -69,7 +70,8 @@ public class AccidentController {
         String typeId = req.getParameter("type.id");
         String ruleId = req.getParameter("rule.id");
         accident.setPhoto(file.getBytes());
-        model.addAttribute("accident", accidentService.findByIdAccident(Integer.parseInt(id)));
+        model.addAttribute("accident",
+                accidentService.findByIdAccident(Integer.parseInt(id)));
         accidentService.update(accident,
                 Integer.parseInt(ruleId),
                 Integer.parseInt(typeId));

@@ -22,54 +22,35 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
+                <a class="nav-item nav-link active" th:href="@{/accidentsTypes/createAccidentType}"> Тип инцидента <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" th:href="@{/accidentsTypes/formAccidentsTypes}"> Список типов <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" th:href="@{/rules/createRule}"> Статья к созданию <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" th:href="@{/rules/formRules}"> Список статей <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link active" th:href="@{/accidents/createAccident}"> Новый инцидент <span class="sr-only">(current)</span></a>
             </div>
         </div>
     </nav>
-<div class="row">
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Адрес</th>
-            <th scope="col">Номер машины</th>
-            <th scope="col">Описание</th>
-            <th scope="col">Фото правонарушения</th>
-            <th scope="col">Статус</th>
-            <th scope="col">Статья</th>
-            <th scope="col">Тип инцидента</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="accident : ${accidents}">
-            <td th:text="${accident.address}"></td>
-            <td th:text="${accident.numberCar}"></td>
-            <td>
-                <a class="dark" th:href="@{|/accidents/formUpdateAccident?id=${accident.id}|}"
-                   th:text="${accident.description}">
-                </a>
-            </td>
-            <td>
-                <img th:width="200" th:high="200" th:src="@{|/photoAds/${accident.id}|}">
-            </td>
-            <td>
-                <a class="dark" th:href="@{|/supervisors/getCompleteAccident?id=${accident.id}|}"
-                <span th:if="${!accident.status}">
-                    <span class="badge badge-warning">В процессе</span>
-                </span>
-                </a>
-                <a class="dark" th:href="@{|/supervisors/getCompleteAccident?id=${accident.id}|}"
-                <span th:if="${accident.status}">
-                    <span class="badge badge-success">Закрыто</span>
-                </span>
-                </a>
-            </td>
-            <td th:text="${accident.rule.name}"></td>
-            <td th:text="${accident.accidentType.name}"></td>
-        </tr>
-        </tbody>
-    </table>
-    </nav>
-</div>
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Номер</th>
+                <th scope="col">Имя</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="rule : ${rules}">
+                <td th:text="${rule.id}"> </td>
+                <td>
+                    <a class="dark" th:href="@{|/rules/updateRule?id=${rule.id}|}"
+                       th:text="${rule.name}">
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </nav>
+    </div>
 </div>
 </body>
 </html>

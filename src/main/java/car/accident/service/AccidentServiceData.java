@@ -2,10 +2,10 @@ package car.accident.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import car.accident.model.Accident;
 import car.accident.repository.AccidentRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,7 @@ public class AccidentServiceData {
     @Autowired
     private final RuleServiceData ruleServiceData;
 
+    @Transactional
     public void create(Accident accident) {
         accident.setAccidentType(accidentTypeServiceData
                 .findById(accident.getAccidentType().getId()).get());
@@ -31,6 +32,8 @@ public class AccidentServiceData {
                 .findById(accident.getRule().getId()).get());
         accidentRepository.save(accident);
     }
+
+    @Transactional
     public void update(Accident accident, int ruleId, int typeId) {
         accident.setAccidentType(accidentTypeServiceData
                 .findById(typeId).get());
@@ -49,5 +52,11 @@ public class AccidentServiceData {
 
     public Optional<Accident> findByIdAccident(int id) {
         return accidentRepository.findById(id);
+    }
+
+    @Transactional
+    public void completeAcc(Accident accident) {
+        accident.setStatus(true);
+        accidentRepository.completeAcc(accident.getId());
     }
 }

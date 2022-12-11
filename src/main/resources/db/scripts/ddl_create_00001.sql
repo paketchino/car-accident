@@ -1,11 +1,11 @@
 create table if not exists accident_types (
     id serial primary key,
-    name text not null
+    name text unique not null
 );
 
 create table if not exists rules (
     id serial primary key,
-    name text not null
+    name text unique not null
 );
 
 CREATE TABLE if not exists accidents (

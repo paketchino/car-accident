@@ -20,6 +20,6 @@ public class Authority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column()
+    @Column(name = "authority", unique = true)
     private String authority;
 }

@@ -31,7 +31,7 @@ public class AccidentTypeControllerTest {
     private AccidentTypeServiceData accidentTypeServiceData;
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "admin", password = "12345", roles = "ADMIN")
     public void shouldReturnAccidentType() throws Exception {
         this.mockMvc.perform(get("/accidentsTypes/createAccidentType"))
                 .andDo(print())
