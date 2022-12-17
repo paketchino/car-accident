@@ -48,7 +48,7 @@ public class RegControlTest {
         User user = new User(2, "user", "password", new Authority(1, "USER"), true);
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("id", "2");
-        map.add("username", "user");
+        map.add("username", "username");
         map.add("password", "password");
         map.add("authority_id", "1");
         map.add("enabled", "true");

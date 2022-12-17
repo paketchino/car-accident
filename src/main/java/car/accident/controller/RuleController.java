@@ -1,5 +1,7 @@
 package car.accident.controller;
 
+import car.accident.dto.rule.RuleDTO;
+import car.accident.mapper.RuleMapperImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +10,7 @@ import car.accident.model.Rule;
 import car.accident.service.RuleServiceData;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 @AllArgsConstructor
@@ -15,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 public class RuleController {
 
     private final RuleServiceData ruleServiceData;
+
+    private final RuleMapperImpl ruleMapper;
 
     @GetMapping("/formRules")
     public String getRules(Model model) {
@@ -36,13 +41,15 @@ public class RuleController {
     }
 
     @PostMapping("/changeRule")
-    public String changeRule(@ModelAttribute Rule rule) {
+    public String changeRule(@Valid @ModelAttribute RuleDTO ruleDTO) {
+        var rule = ruleMapper.ruleDTOToRule(ruleDTO);
         ruleServiceData.save(rule);
         return "redirect:/index";
     }
 
     @PostMapping("/saveRule")
-    public String addTopic(@ModelAttribute Rule rule) {
+    public String addTopic(@Valid @ModelAttribute RuleDTO ruleDTO) {
+        var rule = ruleMapper.ruleDTOToRule(ruleDTO);
         ruleServiceData.save(rule);
         return "redirect:/index";
     }

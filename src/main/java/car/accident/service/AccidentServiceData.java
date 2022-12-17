@@ -1,5 +1,7 @@
 package car.accident.service;
 
+import car.accident.dto.accidentDTO.AccidentDTO;
+import car.accident.mapper.AccidentMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -17,6 +20,8 @@ public class AccidentServiceData {
 
     @Autowired
     private final AccidentRepository accidentRepository;
+
+    private final AccidentMapper accidentMapper;
 
     @Autowired
     private final AccidentTypeServiceData accidentTypeServiceData;
@@ -26,10 +31,6 @@ public class AccidentServiceData {
 
     @Transactional
     public void create(Accident accident) {
-        accident.setAccidentType(accidentTypeServiceData
-                .findById(accident.getAccidentType().getId()).get());
-        accident.setRule(ruleServiceData
-                .findById(accident.getRule().getId()).get());
         accidentRepository.save(accident);
     }
 
@@ -42,12 +43,12 @@ public class AccidentServiceData {
         accidentRepository.save(accident);
     }
 
-    public List<Accident> getAll() {
-        var result = new ArrayList<Accident>();
-        for (var accident : accidentRepository.findAll()) {
-            result.add(accident);
-        }
-        return result;
+    public List<AccidentDTO> getAll() {
+        return accidentRepository
+                .getAll()
+                .stream()
+                .map(accidentMapper::accidentToDTO)
+                .collect(Collectors.toList());
     }
 
     public Optional<Accident> findByIdAccident(int id) {

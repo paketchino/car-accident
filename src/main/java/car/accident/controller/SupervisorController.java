@@ -1,5 +1,8 @@
 package car.accident.controller;
 
+import car.accident.dto.accidentDTO.AccidentDTO;
+import car.accident.mapper.AccidentMapper;
+import car.accident.mapper.AccidentMapperImpl;
 import car.accident.model.Accident;
 import car.accident.service.AccidentServiceData;
 import lombok.AllArgsConstructor;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 @AllArgsConstructor
@@ -18,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 public class SupervisorController {
 
     private final AccidentServiceData accidentServiceData;
+
+    private final AccidentMapperImpl accidentMapper;
 
 
     @GetMapping("/getCompleteAccident")
@@ -29,8 +35,9 @@ public class SupervisorController {
     }
 
     @PostMapping("/postCompleteItem")
-    public String finishAccident(@ModelAttribute Accident accident) {
-        accident.setStatus(true);
+    public String finishAccident(@Valid @ModelAttribute AccidentDTO accidentDTO) {
+        accidentDTO.setStatus(true);
+        Accident accident = accidentMapper.accidentDTOFromAccident(accidentDTO);
         accidentServiceData.completeAcc(accident);
         return "redirect:/index";
     }

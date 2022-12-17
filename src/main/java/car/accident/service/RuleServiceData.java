@@ -1,5 +1,7 @@
 package car.accident.service;
 
+import car.accident.dto.rule.RuleDTO;
+import car.accident.mapper.RuleMapperImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import car.accident.model.Rule;
@@ -7,11 +9,13 @@ import car.accident.repository.RuleRepository;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class RuleServiceData {
     private final RuleRepository ruleRepository;
+    private final RuleMapperImpl ruleMapper;
 
     public Optional<Rule> findById(int id) {
         return ruleRepository.findById(id);
@@ -31,7 +35,10 @@ public class RuleServiceData {
         ruleRepository.save(rule);
     }
 
-    public List<Rule> findAll() {
-        return ruleRepository.findAll();
+    public List<RuleDTO> findAll() {
+        return ruleRepository.findAll()
+                .stream()
+                .map(ruleMapper::ruleToDTO)
+                .collect(Collectors.toList());
     }
 }

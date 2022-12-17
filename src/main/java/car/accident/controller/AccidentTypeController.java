@@ -1,5 +1,7 @@
 package car.accident.controller;
 
+import car.accident.dto.accidentType.AccidentTypeDTO;
+import car.accident.mapper.AccidentTypeMapperImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import car.accident.model.AccidentType;
 import car.accident.service.AccidentTypeServiceData;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 @AllArgsConstructor
@@ -17,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 public class AccidentTypeController {
 
     private final AccidentTypeServiceData accidentTypeServiceData;
+
+    private final AccidentTypeMapperImpl accidentTypeImpl;
 
     @GetMapping("/formAccidentsTypes")
     public String getAccidentsType(Model model) {
@@ -31,7 +36,8 @@ public class AccidentTypeController {
     }
 
     @PostMapping("/saveAccidentType")
-    public String save(@ModelAttribute AccidentType accidentType) {
+    public String save(@Valid @ModelAttribute AccidentTypeDTO accidentTypeDTO) {
+        var accidentType = accidentTypeImpl.accTypeDTOToAccType(accidentTypeDTO);
         accidentTypeServiceData.save(accidentType);
         return "redirect:/index";
     }
@@ -45,7 +51,8 @@ public class AccidentTypeController {
     }
 
     @PostMapping("/changeAccidentType")
-    public String update(@ModelAttribute AccidentType accidentType) {
+    public String update(@ModelAttribute AccidentTypeDTO accidentTypeDTO) {
+        var accidentType = accidentTypeImpl.accTypeDTOToAccType(accidentTypeDTO);
         accidentTypeServiceData.save(accidentType);
         return "redirect:/index";
     }

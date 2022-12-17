@@ -1,5 +1,6 @@
 package car.accident.controller;
 
+import car.accident.dto.accidentDTO.AccidentDTO;
 import car.accident.model.AccidentType;
 import car.accident.model.Rule;
 import car.accident.service.AccidentTypeServiceData;
@@ -23,6 +24,7 @@ import org.springframework.util.MultiValueMap;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.verify;
@@ -70,26 +72,27 @@ public class AccidentControllerTest {
         MockMultipartFile file = new MockMultipartFile(
                 "file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello, Word".getBytes()
         );
-        Rule rule = new Rule(1, "Rule 1");
-        AccidentType accidentType = new AccidentType(1, "Accident Type 1");
+        var rule = new Rule(1, "Rule 1");
+        var accidentType = new AccidentType(1, "Accident Type 1");
         ruleServiceData.save(rule);
         accidentTypeServiceData.save(accidentType);
-        Accident accident = new Accident(1, "Accident Name",
+        var accident = new AccidentDTO(1, "Accident Name",
                 rule,
                 accidentType,
-                "Adress 1", "EA12123213", "Desc 1",
+                "Adress 1",
+                "EA12123213",
+                "Desc 1",
                 file.getBytes(), false);
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("accident", accident);
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("type.id", String.valueOf(accidentType.getId()));
-        params.add("rule.id", String.valueOf(rule.getId()));
+        params.add("type.id", String.valueOf(accident.getAccidentType().getId()));
+        params.add("rule.id", String.valueOf(accident.getRule().getId()));
         this.mockMvc.perform(multipart("/accidents/saveAccident")
                         .file(file)
                         .flashAttrs(body)
                         .params(params))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/index"));
+                .andExpect(status().is3xxRedirection());
         ArgumentCaptor<Accident> argumentCaptor = ArgumentCaptor.forClass(Accident.class);
         verify(accidentServiceData).create(argumentCaptor.capture());
         Accident acc = argumentCaptor.getValue();

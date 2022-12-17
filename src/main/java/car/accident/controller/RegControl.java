@@ -13,6 +13,8 @@ import car.accident.model.User;
 import car.accident.repository.UserRepository;
 import car.accident.service.AuthorityServiceData;
 
+import javax.validation.Valid;
+
 @Controller
 @AllArgsConstructor
 public class RegControl {
@@ -34,7 +36,7 @@ public class RegControl {
     }
 
     @PostMapping("/reg")
-    public String regSave(@ModelAttribute User user) {
+    public String regSave(@Valid @ModelAttribute User user) {
         user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setAuthority(authorityServiceData.findByAuthority("ROLE_USER"));
