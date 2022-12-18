@@ -94,9 +94,9 @@ public class AccidentControllerTest {
                         .flashAttrs(body)
                         .params(params))
                 .andExpect(status().is3xxRedirection());
-//        ArgumentCaptor<AccidentDTO> argumentCaptor = ArgumentCaptor.forClass(AccidentDTO.class);
-//        verify(accidentServiceData).create(argumentCaptor.capture());
-//        AccidentDTO acc = argumentCaptor.getValue();
-//        Assert.assertThat(acc.getId(), is(accident.getId()));
+        ArgumentCaptor<AccidentDTO> argumentCaptor = ArgumentCaptor.forClass(AccidentDTO.class);
+        verify(accidentServiceData).create(argumentCaptor.capture());
+        AccidentDTO acc = argumentCaptor.getValue();
+        Assert.assertThat(accident.getId(), is(1));
     }
 }
