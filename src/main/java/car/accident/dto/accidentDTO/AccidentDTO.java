@@ -2,13 +2,13 @@ package car.accident.dto.accidentDTO;
 
 import car.accident.model.AccidentType;
 import car.accident.model.Rule;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class AccidentDTO {
 
     private int id;

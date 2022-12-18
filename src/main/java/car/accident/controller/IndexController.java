@@ -1,5 +1,6 @@
 package car.accident.controller;
 
+import car.accident.dto.accidentDTO.AccidentDTO;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -35,7 +36,7 @@ public class IndexController {
     @GetMapping("/photoAds/{accidentById}")
     public ResponseEntity<Resource> download(
             @PathVariable("accidentById") Integer accidentId) {
-        Optional<Accident> accident = accidentService.findByIdAccident(accidentId);
+        Optional<AccidentDTO> accident = accidentService.findByIdAccident(accidentId);
         return ResponseEntity.ok()
                 .headers(new HttpHeaders())
                 .contentLength(accident.get().getPhoto().length)

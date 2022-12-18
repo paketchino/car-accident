@@ -1,7 +1,7 @@
 package car.accident.service;
 
 import car.accident.dto.accidentType.AccidentTypeDTO;
-import car.accident.mapper.AccidentTypeMapperImpl;
+import car.accident.mapper.impl.AccidentTypeMapperImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import car.accident.model.AccidentType;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class AccidentTypeServiceData {
     private final AccidentTypeRepository accidentTypeRepository;
 
-    private final AccidentTypeMapperImpl accidentTypeMapperImpl;
+    private final AccidentTypeMapperImpl accidentMapper;
 
     @Transactional
     public void save(AccidentType accidentType) {
@@ -26,8 +26,7 @@ public class AccidentTypeServiceData {
 
     public List<AccidentTypeDTO> getAll() {
         return accidentTypeRepository.findAll()
-                .stream()
-                .map(accidentTypeMapperImpl::convertToDTO)
+                .stream().map(accidentMapper::accidentTypeToTDO)
                 .collect(Collectors.toList());
     }
 

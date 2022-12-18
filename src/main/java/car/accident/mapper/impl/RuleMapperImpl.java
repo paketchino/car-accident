@@ -1,28 +1,21 @@
-package car.accident.mapper;
+package car.accident.mapper.impl;
 
 import car.accident.dto.rule.RuleDTO;
+import car.accident.mapper.RuleMapper;
 import car.accident.model.Rule;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
 public class RuleMapperImpl implements RuleMapper {
 
     @Override
     public RuleDTO ruleToDTO(Rule rule) {
+        if (rule == null) {
+            return null;
+        }
         RuleDTO ruleDTO = new RuleDTO();
         ruleDTO.setId(rule.getId());
         ruleDTO.setName(rule.getName());
         return ruleDTO;
     }
-
-    @Override
-    public Rule ruleDTOToRule(RuleDTO ruleDTO) {
-        Rule rule = new Rule();
-        rule.setId(ruleDTO.getId());
-        rule.setName(ruleDTO.getName());
-        return rule;
-    }
-
 }

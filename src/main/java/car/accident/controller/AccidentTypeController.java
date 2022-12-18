@@ -1,7 +1,7 @@
 package car.accident.controller;
 
 import car.accident.dto.accidentType.AccidentTypeDTO;
-import car.accident.mapper.AccidentTypeMapperImpl;
+import car.accident.model.AccidentType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import car.accident.model.AccidentType;
 import car.accident.service.AccidentTypeServiceData;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -20,8 +19,6 @@ import javax.validation.Valid;
 public class AccidentTypeController {
 
     private final AccidentTypeServiceData accidentTypeServiceData;
-
-    private final AccidentTypeMapperImpl accidentTypeImpl;
 
     @GetMapping("/formAccidentsTypes")
     public String getAccidentsType(Model model) {
@@ -36,9 +33,8 @@ public class AccidentTypeController {
     }
 
     @PostMapping("/saveAccidentType")
-    public String save(@Valid @ModelAttribute AccidentTypeDTO accidentTypeDTO) {
-        var accidentType = accidentTypeImpl.accTypeDTOToAccType(accidentTypeDTO);
-        accidentTypeServiceData.save(accidentType);
+    public String save(@Valid @ModelAttribute AccidentType accidentTypeDTO) {
+        accidentTypeServiceData.save(accidentTypeDTO);
         return "redirect:/index";
     }
 
@@ -51,9 +47,8 @@ public class AccidentTypeController {
     }
 
     @PostMapping("/changeAccidentType")
-    public String update(@ModelAttribute AccidentTypeDTO accidentTypeDTO) {
-        var accidentType = accidentTypeImpl.accTypeDTOToAccType(accidentTypeDTO);
-        accidentTypeServiceData.save(accidentType);
+    public String update(@ModelAttribute AccidentType accidentTypeDTO) {
+        accidentTypeServiceData.save(accidentTypeDTO);
         return "redirect:/index";
     }
 }

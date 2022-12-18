@@ -1,8 +1,5 @@
 package car.accident.controller;
 
-import car.accident.dto.accidentDTO.AccidentDTO;
-import car.accident.mapper.AccidentMapper;
-import car.accident.mapper.AccidentMapperImpl;
 import car.accident.model.Accident;
 import car.accident.service.AccidentServiceData;
 import lombok.AllArgsConstructor;
@@ -23,8 +20,6 @@ public class SupervisorController {
 
     private final AccidentServiceData accidentServiceData;
 
-    private final AccidentMapperImpl accidentMapper;
-
 
     @GetMapping("/getCompleteAccident")
     public String endAccident(Model model, HttpServletRequest req) {
@@ -35,9 +30,8 @@ public class SupervisorController {
     }
 
     @PostMapping("/postCompleteItem")
-    public String finishAccident(@Valid @ModelAttribute AccidentDTO accidentDTO) {
-        accidentDTO.setStatus(true);
-        Accident accident = accidentMapper.accidentDTOFromAccident(accidentDTO);
+    public String finishAccident(@Valid @ModelAttribute Accident accident) {
+        accident.setStatus(true);
         accidentServiceData.completeAcc(accident);
         return "redirect:/index";
     }
