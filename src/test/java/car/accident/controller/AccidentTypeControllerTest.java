@@ -1,6 +1,6 @@
 package car.accident.controller;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class AccidentTypeControllerTest {
         ArgumentCaptor<AccidentType> argument = ArgumentCaptor.forClass(AccidentType.class);
         verify(accidentTypeServiceData).save(argument.capture());
         AccidentType value = argument.getValue();
-        Assert.assertEquals(value.getId(), 1);
-        Assert.assertEquals(value.getName(), "Авария");
+        Assertions.assertEquals(value.getId(), 1);
+        Assertions.assertEquals(value.getName(), "Авария");
     }
 }
